@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Admin Dashboard</title>
+  </head>
+  <body>
+    <div class="container-fluid ad-wrap">
+      <div class="row">
+        <aside class="col-md-3 col-lg-2 ad-sidebar">
+          <div class="ad-brand">
+            <span class="ad-brand-badge">Admin</span>
+            <h4>Admin Panel</h4>
+          </div>
+          <div class="ad-nav-shell">
+            <button class="ad-nav-btn active" data-tab="overview">
+              Overview
+            </button>
+            <button class="ad-nav-btn" data-tab="orders">Orders</button>
+            <button class="ad-nav-btn" data-tab="properties">Properties</button>
+            <button class="ad-nav-btn" data-tab="leads">Sell Leads</button>
+            <button class="ad-nav-btn" data-tab="users">Users</button>
+            <button class="ad-nav-btn" data-tab="contact">Contact</button>
+          </div>
+          <a href="index.html" class="ad-site-link">Back to Website</a>
+          <a href="#" data-logout class="ad-logout-link">Logout</a>
+        </aside>
+
+        <main class="col-md-9 col-lg-10 ad-main">
+          <div
+            class="ad-topbar d-flex justify-content-between align-items-center"
+          >
+            <strong>Welcome, <span data-auth-name></span></strong>
+            <span class="ad-avatar" id="adminAvatar">A</span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h3 class="ad-page-title mb-1">Complete Dashboard</h3>
+              <p class="ad-page-subtitle mb-0">
+                Modern property management with clear actions and a
+                brand-aligned interface.
+              </p>
+            </div>
+            <span id="adminMsg"></span>
+          </div>
+
+          <section id="tab-overview" class="ad-tab">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="ad-card ad-metric-card">
+                  <h6>Total Users</h6>
+                  <h4 id="metricUsers">0</h4>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="ad-card ad-metric-card">
+                  <h6>Total Leads</h6>
+                  <h4 id="metricLeads">0</h4>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="ad-card ad-metric-card">
+                  <h6>Total Orders</h6>
+                  <h4 id="metricOrders">0</h4>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="ad-card ad-metric-card">
+                  <h6>Total Properties</h6>
+                  <h4 id="metricProperties">0</h4>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="ad-card ad-metric-card">
+                  <h6>Contact messages</h6>
+                  <h4 id="metricContact">0</h4>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="tab-orders" class="ad-tab ad-hidden">
+            <div class="ad-card">
+              <h5>Orders Management</h5>
+              <div id="ordersAdminList"></div>
+            </div>
+          </section>
+
+          <section id="tab-properties" class="ad-tab ad-hidden">
+            <div class="ad-card">
+              <div class="ad-section-head">
+                <h5>Add Property</h5>
+                <p>
+                  Enter the listing details once, then keep the catalog polished
+                  and consistent.
+                </p>
+              </div>
+              <form id="propertyForm" class="row ad-property-form">
+                <div class="col-md-6 mb-2">
+                  <input
+                    class="form-control"
+                    id="pTitle"
+                    placeholder="Title"
+                    required
+                  />
+                </div>
+                <div class="col-md-6 mb-2">
+                  <input
+                    class="form-control"
+                    id="pLocation"
+                    placeholder="Location"
+                    required
+                  />
+                </div>
+                <div class="col-md-4 mb-2">
+                  <input
+                    class="form-control"
+                    id="pType"
+                    placeholder="Type"
+                    required
+                  />
+                </div>
+                <div class="col-md-4 mb-2">
+                  <select class="form-control" id="pPurpose" required>
+                    <option value="sale">Sale</option>
+                    <option value="rent">Rent</option>
+                  </select>
+                </div>
+                <div class="col-md-4 mb-2">
+                  <input
+                    class="form-control"
+                    id="pPrice"
+                    type="number"
+                    placeholder="Price"
+                    required
+                  />
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input
+                    class="form-control"
+                    id="pBedrooms"
+                    type="number"
+                    placeholder="Bedrooms"
+                  />
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input
+                    class="form-control"
+                    id="pBathrooms"
+                    type="number"
+                    placeholder="Bathrooms"
+                  />
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input
+                    class="form-control"
+                    id="pArea"
+                    type="number"
+                    placeholder="Area"
+                  />
+                </div>
+                <div class="col-md-3 mb-2 d-flex align-items-center">
+                  <input class="mr-2" type="checkbox" id="pFeatured" /> Featured
+                </div>
+                <div class="col-md-12 mb-2">
+                  <textarea
+                    class="form-control"
+                    id="pDescription"
+                    placeholder="Description"
+                  ></textarea>
+                </div>
+                <div class="col-md-6 mb-2">
+                  <input
+                    class="form-control"
+                    id="pImageFile"
+                    type="file"
+                    accept=".png,.jpg,.jpeg,image/png,image/jpeg"
+                  />
+                  <small class="text-muted">PNG/JPG only, max 2MB.</small>
+                </div>
+                <div class="col-md-6 mb-2">
+                  <input
+                    class="form-control"
+                    id="pFeatures"
+                    placeholder="Features comma separated"
+                  />
+                </div>
+                <div class="col-md-12">
+                  <div class="ad-form-actions">
+                    <div class="ad-form-note">
+                      Ready to publish the listing when everything looks right.
+                    </div>
+                    <button class="btn ad-primary-btn" type="submit">
+                      Save Property
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="ad-card">
+              <div class="ad-section-head">
+                <h5>Properties List</h5>
+                <p>
+                  Stylish summary cards keep each listing easy to scan and edit.
+                </p>
+              </div>
+              <div id="propertiesAdminList" class="ad-properties-list"></div>
+            </div>
+          </section>
+
+          <section id="tab-leads" class="ad-tab ad-hidden">
+            <div class="ad-card">
+              <h5>Sell Leads</h5>
+              <div id="leadsAdminList"></div>
+            </div>
+          </section>
+
+          <section id="tab-users" class="ad-tab ad-hidden">
+            <div class="ad-card">
+              <div class="ad-section-head">
+                <h5>Registered Users</h5>
+                <p>
+                  Review account details and promote team members from a
+                  cleaner, more readable list.
+                </p>
+              </div>
+              <div id="usersAdminList" class="ad-users-list"></div>
+            </div>
+          </section>
+
+          <section id="tab-contact" class="ad-tab ad-hidden">
+            <div class="ad-card">
+              <h5>Contact form messages</h5>
+              <div id="contactAdminList"></div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+  </body>
+</html>

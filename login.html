@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Login / Register</title>
+  </head>
+  <body class="login-page">
+    <div class="login-page-bg">
+      <div class="container login-shell">
+        <div class="login-topbar">
+          <h2>Account Access</h2>
+          <a href="index.html" class="login-home-link">Back to Home</a>
+        </div>
+
+        <div class="row align-items-stretch">
+          <div class="col-lg-5 mb-4">
+            <div class="login-brand-panel h-100">
+              <h3>Welcome Back</h3>
+              <p>
+                Sign in to manage bookings, track your activity, and discover
+                premium properties with a smooth experience.
+              </p>
+              <div class="login-brand-badge">Asteco Property Portal</div>
+            </div>
+          </div>
+
+          <div class="col-lg-7 mb-4">
+            <div class="login-card h-100">
+              <div class="login-card-header">
+                <h3 id="authTitle">Login</h3>
+              </div>
+
+              <form id="loginForm" class="login-form">
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Password"
+                    required
+                  />
+                </div>
+                <button
+                  class="btn btn-danger btn-block login-main-btn login-submit-btn text-white"
+                  type="submit"
+                >
+                  Login
+                </button>
+              </form>
+
+              <form id="registerForm" class="login-form" style="display: none">
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="regName"
+                    placeholder="Full Name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    type="email"
+                    id="regEmail"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    type="password"
+                    id="regPassword"
+                    placeholder="Password (min 8 chars)"
+                    required
+                  />
+                </div>
+                <button
+                  class="btn btn-dark btn-block login-main-btn register-submit-btn"
+                  type="submit"
+                >
+                  Create Account
+                </button>
+              </form>
+
+              <button
+                id="authToggleBtn"
+                type="button"
+                class="btn btn-outline-secondary btn-block mt-3 login-toggle-btn"
+              >
+                Register Instead
+              </button>
+
+              <p id="authMessage" class="auth-message"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+      const msg = document.getElementById("authMessage");
+      const authTitle = document.getElementById("authTitle");
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+      const authToggleBtn = document.getElementById("authToggleBtn");
+      let isLoginMode = true;
+
+      function renderAuthMode() {
+        loginForm.style.display = isLoginMode ? "" : "none";
+        registerForm.style.display = isLoginMode ? "none" : "";
+        authTitle.textContent = isLoginMode ? "Login" : "Register";
+        authToggleBtn.textContent = isLoginMode
+          ? "Register Instead"
+          : "Login Instead";
+        msg.textContent = "";
+        msg.className = "auth-message";
+      }
+
+      authToggleBtn.addEventListener("click", () => {
+        isLoginMode = !isLoginMode;
+        renderAuthMode();
+      });
+
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        msg.textContent = "";
+        msg.className = "auth-message";
+        try {
+          await Auth.login(
+            document.getElementById("loginEmail").value.trim(),
+            document.getElementById("loginPassword").value,
+          );
+          window.location.href = Auth.isAdmin()
+            ? "admin-dashboard.html"
+            : "dashboard.html";
+        } catch (err) {
+          msg.className = "auth-message is-error";
+          msg.textContent = err.message;
+        }
+      });
+
+      registerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        msg.textContent = "";
+        msg.className = "auth-message";
+        try {
+          await Auth.register(
+            document.getElementById("regName").value.trim(),
+            document.getElementById("regEmail").value.trim(),
+            document.getElementById("regPassword").value,
+          );
+          window.location.href = "dashboard.html";
+        } catch (err) {
+          msg.className = "auth-message is-error";
+          msg.textContent = err.message;
+        }
+      });
+      renderAuthMode();
+    </script>
+  </body>
+</html>
