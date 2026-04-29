@@ -81,6 +81,15 @@ async function start() {
   const mongoUri = process.env.MONGO_URI;
   if (!mongoUri) {
     console.error("MONGO_URI is missing! DB features will not work.");
+  } else {
+    console.log(`MONGO_URI detected: ${mongoUri.substring(0, 15)}...`);
+  }
+
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    console.error("JWT_SECRET is missing! Authentication will fail.");
+  } else {
+    console.log(`JWT_SECRET detected: ${jwtSecret.substring(0, 4)}...`);
   }
 
   mongoose.set("strictQuery", true);
