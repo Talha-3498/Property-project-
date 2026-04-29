@@ -28,18 +28,7 @@ app.use(
 
 app.use(
   cors({
-    origin: (origin, cb) => {
-      const allowed = (process.env.CORS_ORIGIN || "")
-        .split(",")
-        .map((s) => s.trim().replace(/\/$/, ""))
-        .filter(Boolean);
-
-      if (!origin) return cb(null, true); // same-origin / file:// / curl
-      if (allowed.length === 0) return cb(null, true);
-      if (allowed.includes(origin)) return cb(null, true);
-      console.error(`CORS rejected for origin: ${origin}. Allowed origins: ${allowed.join(", ")}`);
-      return cb(new Error("CORS not allowed for this origin"));
-    },
+    origin: true,
     credentials: true,
   }),
 );
