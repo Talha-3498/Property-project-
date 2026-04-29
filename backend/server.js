@@ -71,14 +71,16 @@ async function start() {
   const port = Number(process.env.PORT || 5000);
   const mongoUri = process.env.MONGO_URI;
   if (!mongoUri) {
-    throw new Error("MONGO_URI is required");
+    console.error("MONGO_URI is missing! DB features will not work.");
   }
 
   mongoose.set("strictQuery", true);
 
-  await mongoose.connect(mongoUri)
-    .then(() => console.log("Connected to MongoDB Atlas successfully"))
-    .catch((err) => console.error("Failed to connect to MongoDB Atlas", err));
+  if (mongoUri) {
+    mongoose.connect(mongoUri)
+      .then(() => console.log("Connected to MongoDB Atlas successfully"))
+      .catch((err) => console.error("Failed to connect to MongoDB Atlas", err));
+  }
 
   app.listen(port, () => {
     // Intentionally minimal logs in production environments
