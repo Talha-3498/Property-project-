@@ -69,6 +69,15 @@ app.use((err, req, res, next) => {
 
 async function start() {
   const port = Number(process.env.PORT || 5000);
+
+  app.listen(port, () => {
+    // Intentionally minimal logs in production environments
+    if (process.env.NODE_ENV !== "production") {
+      // eslint-disable-next-line no-console
+      console.log(`API listening on port ${port}`);
+    }
+  });
+
   const mongoUri = process.env.MONGO_URI;
   if (!mongoUri) {
     console.error("MONGO_URI is missing! DB features will not work.");
@@ -81,14 +90,6 @@ async function start() {
       .then(() => console.log("Connected to MongoDB Atlas successfully"))
       .catch((err) => console.error("Failed to connect to MongoDB Atlas", err));
   }
-
-  app.listen(port, () => {
-    // Intentionally minimal logs in production environments
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.log(`API listening on http://localhost:${port}`);
-    }
-  });
 }
 
 start().catch((e) => {
