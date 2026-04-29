@@ -70,39 +70,17 @@ app.use((err, req, res, next) => {
   res.status(status).json({ error: message });
 });
 
-async function start() {
-  const port = Number(process.env.PORT || 5000);
-  console.log(`Starting server on port ${port}...`);
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+  console.log(`✅ Server is up on port ${port}`);
+});
 
-  app.listen(port, () => {
-    console.log(`Server successfully listening on port ${port}`);
-  });
-
-  const mongoUri = process.env.MONGO_URI;
-  if (!mongoUri) {
-    console.error("MONGO_URI is missing! DB features will not work.");
-  } else {
-    console.log(`MONGO_URI detected: ${mongoUri.substring(0, 15)}...`);
-  }
-
-  const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
-    console.error("JWT_SECRET is missing! Authentication will fail.");
-  } else {
-    console.log(`JWT_SECRET detected: ${jwtSecret.substring(0, 4)}...`);
-  }
-
-  mongoose.set("strictQuery", true);
-
-  if (mongoUri) {
-    mongoose.connect(mongoUri)
-      .then(() => console.log("Connected to MongoDB Atlas successfully"))
-      .catch((err) => console.error("Failed to connect to MongoDB Atlas", err));
-  }
+const mongoUri = process.env.MONGO_URI;
+if (mongoUri) {
+  mongoose.connect(mongoUri)
+    .then(() => console.log("✅ MongoDB Connected"))
+    .catch(err => console.error("❌ MongoDB Error:", err));
+} else {
+  console.error("❌ MONGO_URI is missing!");
 }
 
-start().catch((e) => {
-  // eslint-disable-next-line no-console
-  console.error(e);
-  process.exit(1);
-});
