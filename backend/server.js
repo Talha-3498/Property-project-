@@ -31,7 +31,7 @@ app.use(
     origin: (origin, cb) => {
       const allowed = (process.env.CORS_ORIGIN || "")
         .split(",")
-        .map((s) => s.trim())
+        .map((s) => s.trim().replace(/\/$/, ""))
         .filter(Boolean);
 
       if (!origin) return cb(null, true); // same-origin / file:// / curl
