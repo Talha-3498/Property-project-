@@ -2,7 +2,7 @@
 
 const API = (() => {
   const BASE_URL =
-    localStorage.getItem("apiBaseUrl") || "http://localhost:5000";
+    localStorage.getItem("apiBaseUrl") || "https://property-project-production.up.railway.app";
 
   function trimTrailingSlash(url) {
     return String(url || "").replace(/\/+$/, "");
