@@ -18,18 +18,14 @@ const contactRoutes = require("./routes/contact");
 
 const app = express();
 
+app.use(cors()); // Allow all origins by default
+app.options("*", cors()); // Enable pre-flight for all routes
+
 app.set("trust proxy", 1);
 
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
-  }),
-);
-
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
   }),
 );
 
