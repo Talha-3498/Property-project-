@@ -89,7 +89,10 @@ async function start() {
   }
 
   mongoose.set("strictQuery", true);
-  await mongoose.connect(mongoUri);
+
+  await mongoose.connect(mongoUri)
+    .then(() => console.log("Connected to MongoDB Atlas successfully"))
+    .catch((err) => console.error("Failed to connect to MongoDB Atlas", err));
 
   app.listen(port, () => {
     // Intentionally minimal logs in production environments
