@@ -17,9 +17,11 @@ const leadsRoutes = require("./routes/leads");
 const contactRoutes = require("./routes/contact");
 
 const app = express();
+console.log("Express app initialized");
 
-app.use(cors()); // Allow all origins by default
-app.options("*", cors()); // Enable pre-flight for all routes
+app.use(cors());
+app.options("*", cors());
+console.log("CORS configured");
 
 app.set("trust proxy", 1);
 
@@ -69,13 +71,10 @@ app.use((err, req, res, next) => {
 
 async function start() {
   const port = Number(process.env.PORT || 5000);
+  console.log(`Starting server on port ${port}...`);
 
   app.listen(port, () => {
-    // Intentionally minimal logs in production environments
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.log(`API listening on port ${port}`);
-    }
+    console.log(`Server successfully listening on port ${port}`);
   });
 
   const mongoUri = process.env.MONGO_URI;
